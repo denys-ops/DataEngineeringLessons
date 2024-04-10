@@ -1,30 +1,10 @@
 import json
 import os
 from fastavro import writer, parse_schema
-avro_schema = {
-        "type": "record",
-        "name": "Purchase",
-        "fields": [
-            {
-                "name": "client",
-                "type": "string"
-            },
-            {
-                "name": "purchase_date",
-                "type": "string",
-            },
-            {
-                "name": "product",
-                "type": "string"
-            },
-            {
-                "name": "price",
-                "type": "int"
-            }
-        ]
-}
 
-parsed_schema = parse_schema(avro_schema)
+from lesson_02.apis.schemas.avro_schemas import PURCHASE_SCHEMA
+
+parsed_schema = parse_schema(PURCHASE_SCHEMA)
 
 
 def convert_json_to_avro(json_directory, avro_directory):

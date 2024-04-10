@@ -2,9 +2,10 @@ from fastapi import HTTPException, APIRouter
 from starlette import status
 
 from lesson_02.apis.collect_api.service import save_raw_data
-from lesson_02.apis.models import CollectJobRequest
+from lesson_02.apis.schemas.models import CollectJobRequest
 
 collect_router = APIRouter()
+
 
 @collect_router.post("/", status_code=status.HTTP_201_CREATED)
 def save_data(body: CollectJobRequest):

@@ -19,13 +19,15 @@ def save_raw_data(raw_dir: str, date: str, data_type: str = "sales") -> None:
         os.makedirs(raw_dir)
 
     # Save the data
-    for page in range(1, 3001):
+    page = 1
+    while True:
         try:
             data = get_data_from_api(date, page)
         except AssertionError:
             break
         with open(f"{raw_dir}/{data_type}_{date}_{page}.json", "w") as json_file:
             json.dump(data, json_file, indent=4)
+        page = page + 1
 
 
 def get_data_from_api(date: str, page: int = 1) -> dict:

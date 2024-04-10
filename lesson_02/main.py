@@ -5,6 +5,7 @@ from fastapi import FastAPI
 
 from lesson_02.apis.collect_api.router import collect_router
 from lesson_02.apis.transform_api.router import transform_router
+from lesson_02.settings import TRANSFORM_APP_PORT, GET_APP_PORT, APP_HOST
 
 get_app = FastAPI(
     title="DataEngineeringAPI1",
@@ -26,14 +27,10 @@ async def run_server(app, host, port):
 
 
 async def main():
-    # Створюємо завдання для кожного сервера
-    task1 = asyncio.create_task(run_server(get_app, "127.0.0.1", 8081))
-    task2 = asyncio.create_task(run_server(transform_app, "127.0.0.1", 8082))
-
-    # Виконуємо завдання одночасно
+    task1 = asyncio.create_task(run_server(get_app, APP_HOST, GET_APP_PORT))
+    task2 = asyncio.create_task(run_server(transform_app, APP_HOST, TRANSFORM_APP_PORT))
     await asyncio.gather(task1, task2)
 
 
-# Викликаємо асинхронну головну функцію
 if __name__ == "__main__":
     asyncio.run(main())
