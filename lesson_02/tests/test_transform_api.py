@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, mock_open
 
-from lesson_02.apis.transform_api.service import convert_json_to_avro
+from apis.transform_api.service import convert_json_to_avro
 
 
 @pytest.fixture

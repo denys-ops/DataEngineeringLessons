@@ -1,11 +1,12 @@
 import asyncio
 
 import uvicorn
+import yaml
 from fastapi import FastAPI
 
-from lesson_02.apis.collect_api.router import collect_router
-from lesson_02.apis.transform_api.router import transform_router
-from lesson_02.settings import TRANSFORM_APP_PORT, GET_APP_PORT, APP_HOST
+from apis.collect_api.router import collect_router
+from apis.transform_api.router import transform_router
+from settings import TRANSFORM_APP_PORT, GET_APP_PORT, APP_HOST
 
 get_app = FastAPI(
     title="DataEngineeringAPI1",
@@ -19,9 +20,11 @@ transform_app = FastAPI(
 )
 transform_app.include_router(transform_router)
 
+with open("./log_config.yaml") as file:
+    loaded_config = yaml.safe_load(file)
 
 async def run_server(app, host, port):
-    config = uvicorn.Config(app=app, host=host, port=port)
+    config = uvicorn.Config(app=app, host=host, port=port, log_config=loaded_config)
     server = uvicorn.Server(config)
     await server.serve()
 

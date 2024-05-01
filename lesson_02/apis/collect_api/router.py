@@ -1,8 +1,8 @@
 from fastapi import HTTPException, APIRouter
 from starlette import status
 
-from lesson_02.apis.collect_api.service import save_raw_data
-from lesson_02.apis.schemas.models import CollectJobRequest
+from apis.collect_api.service import save_raw_data
+from apis.schemas.models import CollectJobRequest
 
 collect_router = APIRouter()
 

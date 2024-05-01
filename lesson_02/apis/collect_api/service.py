@@ -1,11 +1,13 @@
 import json
+import logging
 import os
 import shutil
 
 import httpx
 
-from lesson_02.constants import URL, AUTH_TOKEN
+from constants import URL, AUTH_TOKEN
 
+logger = logging.getLogger(__name__)
 client = httpx.AsyncClient()
 
 
@@ -21,12 +23,14 @@ def save_raw_data(raw_dir: str, date: str, data_type: str = "sales") -> None:
     # Save the data
     page = 1
     while True:
+        file_path = f"{os.path.abspath(raw_dir)}/{data_type}_{date}_{page}.json"
         try:
             data = get_data_from_api(date, page)
         except AssertionError:
             break
-        with open(f"{raw_dir}/{data_type}_{date}_{page}.json", "w") as json_file:
+        with open(file_path, "w") as json_file:
             json.dump(data, json_file, indent=4)
+            logger.info(f"Saved {file_path}")
         page = page + 1
 
 

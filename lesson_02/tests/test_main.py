@@ -1,7 +1,7 @@
 import pytest
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest.mock import patch, AsyncMock
 
-from lesson_02.main import run_server, main
+from main import run_server, main
 
 
 @pytest.mark.asyncio
