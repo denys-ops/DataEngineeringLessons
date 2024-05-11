@@ -23,6 +23,7 @@ transform_app.include_router(transform_router)
 with open("./log_config.yaml") as file:
     loaded_config = yaml.safe_load(file)
 
+
 async def run_server(app, host, port):
     config = uvicorn.Config(app=app, host=host, port=port, log_config=loaded_config)
     server = uvicorn.Server(config)

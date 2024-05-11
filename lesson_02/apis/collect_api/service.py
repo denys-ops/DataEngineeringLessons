@@ -26,7 +26,8 @@ def save_raw_data(raw_dir: str, date: str, data_type: str = "sales") -> None:
         file_path = f"{os.path.abspath(raw_dir)}/{data_type}_{date}_{page}.json"
         try:
             data = get_data_from_api(date, page)
-        except AssertionError:
+        except AssertionError as e:
+            logger.error(e)
             break
         with open(file_path, "w") as json_file:
             json.dump(data, json_file, indent=4)

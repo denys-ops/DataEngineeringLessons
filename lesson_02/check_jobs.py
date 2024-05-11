@@ -14,6 +14,7 @@ JOB2_PORT = 8082
 
 RAW_DIR = os.path.join(BASE_DIR, "raw", "sales", "2022-08-09")
 STG_DIR = os.path.join(BASE_DIR, "stg", "sales", "2022-08-09")
+CSV_DIR = os.path.join(BASE_DIR, "csv", "sales", "2022-08-09")
 
 
 def run_job1():
@@ -42,7 +43,22 @@ def run_job2():
     print("job2 completed!")
 
 
+def run_job3():
+    print("Starting job3:")
+    resp = requests.post(
+        url=f'http://localhost:{JOB2_PORT}/csv',
+        json={
+            "raw_dir": RAW_DIR,
+            "stg_dir": CSV_DIR
+        }
+    )
+    assert resp.status_code == 201
+    print("job3 completed!")
+
+
 if __name__ == '__main__':
     run_job1()
     time.sleep(3)
     run_job2()
+    time.sleep(1)
+    run_job3()
