@@ -2,7 +2,7 @@ import json
 import os
 from fastavro import writer, parse_schema
 
-from lesson_02.apis.schemas.avro_schemas import PURCHASE_SCHEMA
+from apis.schemas.avro_schemas import PURCHASE_SCHEMA
 
 parsed_schema = parse_schema(PURCHASE_SCHEMA)
 

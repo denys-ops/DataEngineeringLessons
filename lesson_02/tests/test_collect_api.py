@@ -1,4 +1,3 @@
-import json
 import os
 import shutil
 from unittest import mock
@@ -7,8 +6,8 @@ from unittest.mock import patch, mock_open, MagicMock
 import httpx
 import pytest
 
-from lesson_02.apis.collect_api.service import save_raw_data, get_data_from_api
-from lesson_02.constants import URL, AUTH_TOKEN
+from apis.collect_api.service import save_raw_data, get_data_from_api
+from constants import URL, AUTH_TOKEN
 
 
 @pytest.mark.parametrize("exists", [True, False])
