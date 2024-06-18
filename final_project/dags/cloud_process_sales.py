@@ -4,10 +4,8 @@ from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQue
 from airflow.providers.google.cloud.operators.gcs import GCSListObjectsOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
 
-
 BUCKET_NAME = "de-07-kondratiuk-final-bucket"
 PROJECT_NAME = "de-07-denys-kondratiuk"
-
 
 default_args = {
     'owner': 'airflow',
@@ -16,14 +14,12 @@ default_args = {
     'retries': 1,
 }
 
-
 with DAG(
     'cloud_process_sales',
     default_args=default_args,
     description='Load data from GCS to BigQuery',
     schedule_interval=None,
 ) as dag:
-
     list_files = GCSListObjectsOperator(
         task_id='list_files',
         bucket=BUCKET_NAME,
@@ -73,4 +69,3 @@ with DAG(
     )
 
     list_files >> gcs_to_bigquery >> bronze_to_silver
-
