@@ -1,12 +1,9 @@
-import datetime
-from typing import List
-
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
-from airflow.providers.google.cloud.operators.gcs import GCSListObjectsOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
-from airflow.operators.python import PythonOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+from airflow.utils.trigger_rule import TriggerRule
 
 BUCKET_NAME = "de-07-kondratiuk-final-bucket"
 PROJECT_NAME = "de-07-denys-kondratiuk"
@@ -18,7 +15,6 @@ default_args = {
     'start_date': days_ago(1),
     'retries': 1,
 }
-
 
 with DAG(
         'cloud_process_user_profiles',
@@ -54,4 +50,10 @@ with DAG(
         use_legacy_sql=False,
     )
 
-    gcs_to_bigquery >> bronze_to_silver
+    trigger_task = TriggerDagRunOperator(
+        task_id='trigger_task',
+        trigger_rule=TriggerRule.ALL_SUCCESS,
+        trigger_dag_id='cloud_enrich_user_profiles'
+    )
+
+    gcs_to_bigquery >> bronze_to_silver >> trigger_task
